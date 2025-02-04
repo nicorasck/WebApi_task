@@ -9,10 +9,12 @@ dotnet ef database update
 
 dotnet watch run
 
+Adding to new repository (GitHub)
+git add *
 
 Pushing your project
 git add *			
-git init -m "message"
+git commit -m "message"
 git push -u origin main // this will set the push where you want it to push it => linking to origin.
 
 git push    // project will be pushed.

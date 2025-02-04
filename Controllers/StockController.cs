@@ -13,7 +13,7 @@ namespace WebApi_task.Controllers
         private readonly StockDbContext _context;
         public StockController(StockDbContext context)
         {
-            context = context;
+            _context = context;
         }
 
         [HttpGet]
@@ -33,20 +33,20 @@ namespace WebApi_task.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById([FromQuery] int id, bool inlcude = false)
         {
-            var stocks = _context.Stocks.AsQueryable();
+            var test = _context.Stocks.AsQueryable();
 
-            if (!inlcude)
+            if (inlcude)
             {
-                stocks = stocks.Include(s => s.Comments);
+               test = test.Include (s => s.Comments);
+            }
+
+            var stock = await test.FirstOrDefaultAsync(s => s.Id == id);
+
+            if (stock is null)
+            {
                 return NotFound();
             }
-            var result = await stocks.FirstOrDefaultAsync(s => s.Id == id);
-
-            if (result is null)
-            {
-                return NotFound();
-            }
-            return Ok(StockDTO.FromModel(result));
+            return Ok(StockDTO.FromModel(stock));
         }
         
         [HttpPost]
