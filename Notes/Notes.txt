@@ -1,0 +1,34 @@
+dotnet add package Microsoft.EntityFrameworkCore
+dotnet add package Microsoft.EntityFrameworkCore.SQlite
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet tool install --global dotnet-ef
+
+dotnet ef migrations add InitialCreate
+dotnet ef database update
+
+dotnet watch run
+
+
+Pushing your project
+git add *			
+git init -m "message"
+git push -u origin main // this will set the push where you want it to push it => linking to origin.
+
+git push    // project will be pushed.
+
+________________________________________________________
+
+The difference between .ToModel() and .FromModel() is in their direction of conversion:
+
+.ToModel() (DTO → Model)
+
+Converts a DTO (Data Transfer Object) into an Entity Model.
+Used when receiving data from the client (e.g., in a POST request).
+Example: commentDTO.ToModel() converts a CommentDTO into a Comment entity that can be saved to the database.
+.FromModel() (Model → DTO)
+
+Converts an Entity Model into a DTO.
+Used when sending data to the client (e.g., in a GET response).
+Example: CommentDTO.FromModel(comment) converts a Comment entity into a CommentDTO to return from an API endpoint.
+_________________________________________________________

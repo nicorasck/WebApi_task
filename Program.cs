@@ -1,4 +1,6 @@
 
+using Microsoft.EntityFrameworkCore;
+using WebApi_task.Data;
 namespace WebApi_task;
 
 public class Program
@@ -13,6 +15,8 @@ public class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        builder.Services.AddDbContext<StockDbContext>(options =>
+        options.UseSqlite("Data Source=WebApi_Task.db"));
 
         var app = builder.Build();
 
@@ -23,6 +27,7 @@ public class Program
             app.UseSwaggerUI();
         }
 
+       
         app.UseHttpsRedirection();
 
         app.UseAuthorization();

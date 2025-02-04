@@ -192,3 +192,4 @@ C:\Users\nicho\development\projects\OPF\WebApi\WebApi_task\obj\Debug\net8.0\refi
 C:\Users\nicho\development\projects\OPF\WebApi\WebApi_task\obj\Debug\net8.0\WebApi_task.pdb
 C:\Users\nicho\development\projects\OPF\WebApi\WebApi_task\obj\Debug\net8.0\WebApi_task.genruntimeconfig.cache
 C:\Users\nicho\development\projects\OPF\WebApi\WebApi_task\obj\Debug\net8.0\ref\WebApi_task.dll
+C:\Users\nicho\development\projects\OPF\WebApi\WebApi_task\obj\Debug\net8.0\WebApi_task.sourcelink.json
