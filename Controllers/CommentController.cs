@@ -23,38 +23,38 @@ public class CommentController : ControllerBase
     }
 
     // GET: api/comment/{id}
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(int StockId, [FromQuery] bool include = false)
-    {
-        var query = _context.Comments.AsQueryable();
-
-        if (include)
-        {
-            query = query.Include(c => c.Stock);
-        }
-
-        var comment = await query.FirstOrDefaultAsync(c => c.Id == StockId);
-
-        if (comment is null)
-        {
-            return NotFound();
-        }
-
-        return Ok(CommentDTO.FromModel(comment));
-    }
-
     // [HttpGet("{id}")]
-    // public async Task<IActionResult> GetById([FromQuery] int stockId)
-    // {    
-    //     var comment = _context.Comments
-    //     .Where(c => c.Id == stockId)
-    //     .FirstOrDefault();
+    // public async Task<IActionResult> GetById(int StockId, [FromQuery] bool include = false)
+    // {
+    //     var query = _context.Comments.AsQueryable();
 
-    //     if(comment is null){
+    //     if (include)
+    //     {
+    //         query = query.Include(c => c.Stock);
+    //     }
+
+    //     var comment = await query.FirstOrDefaultAsync(c => c.Id == StockId);
+
+    //     if (comment is null)
+    //     {
     //         return NotFound();
     //     }
+
     //     return Ok(CommentDTO.FromModel(comment));
     // }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById([FromQuery] int stockId)
+    {    
+        var comment = _context.Comments
+        .Where(c => c.Id == stockId)
+        .FirstOrDefault();
+
+        if(comment is null){
+            return NotFound();
+        }
+        return Ok(CommentDTO.FromModel(comment));
+    }
 
     // POST: api/comment
     [HttpPost]

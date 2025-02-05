@@ -19,6 +19,10 @@ git push -u origin main // this will set the push where you want it to push it =
 
 git push    // project will be pushed.
 
+Update migrations (table or migration)
+dotnet ef migrations add <MigrationName>
+dotnet ef migrations add <TableName>
+
 ________________________________________________________
 
 The difference between .ToModel() and .FromModel() is in their direction of conversion:

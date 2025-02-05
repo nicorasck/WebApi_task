@@ -11,7 +11,7 @@ using WebApi_task.Data;
 namespace WebApi_task.Migrations
 {
     [DbContext(typeof(StockDbContext))]
-    [Migration("20250203124800_InitialCreate")]
+    [Migration("20250205075219_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

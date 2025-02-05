@@ -15,7 +15,8 @@ public class CommentDTO
             Id = comment.Id,
             Title = comment.Title,
             Content = comment.Content,
-            CreatedDate = comment.CreatedDate
+            CreatedDate = comment.CreatedDate,
+            StockId = comment.StockId
         };
     }
     public Comment ToModel()
@@ -25,7 +26,8 @@ public class CommentDTO
             Id = Id,
             Title = Title,
             Content = Content,
-            CreatedDate = CreatedDate
+            CreatedDate = CreatedDate,
+            StockId = StockId
         };
     }
 }
