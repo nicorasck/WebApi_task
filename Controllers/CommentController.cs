@@ -22,35 +22,16 @@ public class CommentController : ControllerBase
         return Ok(comments);
     }
 
-    // GET: api/comment/{id}
-    // [HttpGet("{id}")]
-    // public async Task<IActionResult> GetById(int StockId, [FromQuery] bool include = false)
-    // {
-    //     var query = _context.Comments.AsQueryable();
-
-    //     if (include)
-    //     {
-    //         query = query.Include(c => c.Stock);
-    //     }
-
-    //     var comment = await query.FirstOrDefaultAsync(c => c.Id == StockId);
-
-    //     if (comment is null)
-    //     {
-    //         return NotFound();
-    //     }
-
-    //     return Ok(CommentDTO.FromModel(comment));
-    // }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById([FromQuery] int stockId)
-    {    
+    {
         var comment = _context.Comments
         .Where(c => c.Id == stockId)
         .FirstOrDefault();
 
-        if(comment is null){
+        if (comment is null)
+        {
             return NotFound();
         }
         return Ok(CommentDTO.FromModel(comment));
@@ -77,5 +58,45 @@ public class CommentController : ControllerBase
         await _context.SaveChangesAsync();
 
         return CreatedAtAction(nameof(GetById), new { id = comment.Id }, CommentDTO.FromModel(comment));
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, [FromBody] CommentDTO commentDTO)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var comment = await _context.Comments.FindAsync(id);
+        if (comment is null)
+        {
+            return NotFound();
+        }
+
+        // Update properties
+        comment.Title = commentDTO.Title;
+        comment.Content = commentDTO.Content;
+
+        _context.Comments.Update(comment);
+        await _context.SaveChangesAsync();
+
+        return Ok(CommentDTO.FromModel(comment));
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var comment = await _context.Comments.FindAsync(id);
+
+        if (comment is null)
+        {
+            return NotFound();
+        }
+
+        _context.Comments.Remove(comment);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
     }
 }

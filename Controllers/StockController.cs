@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using WebApi_task.Data;
 using WebApi_task.DTO;
+using WebApi_task.Models;
 
 namespace WebApi_task.Controllers
 {
@@ -37,7 +39,7 @@ namespace WebApi_task.Controllers
 
             if (inlcude)
             {
-               test = test.Include (s => s.Comments);
+                test = test.Include(s => s.Comments);
             }
 
             var stock = await test.FirstOrDefaultAsync(s => s.Id == id);
@@ -48,7 +50,7 @@ namespace WebApi_task.Controllers
             }
             return Ok(StockDTO.FromModel(stock));
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] StockDTO stockDTO)
         {
@@ -60,7 +62,57 @@ namespace WebApi_task.Controllers
             _context.Stocks.Add(stock);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetById), new {id = stock.Id}, StockDTO.FromModel(stock));
+            return CreatedAtAction(nameof(GetById), new { id = stock.Id }, StockDTO.FromModel(stock));
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromBody] StockDTO stockDTO, int id, [FromQuery] bool include = false)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var query = _context.Stocks.AsQueryable();
+
+            if (include)
+            {
+                query = query.Include(s => s.Id);
+            }
+
+            var stock = await query.FirstOrDefaultAsync(s => s.Id == id);
+
+            if (stock is null)
+            {
+                return NotFound();
+            }
+
+            // Update properties
+            stock.Symbol = stockDTO.Symbol;
+            stock.CompanyName = stockDTO.CompanyName;
+            stock.Price = stockDTO.Price;
+
+            _context.Stocks.Update(stock);
+            await _context.SaveChangesAsync();
+
+            return Ok(StockDTO.FromModel(stock));
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var stock = await _context.Stocks.FindAsync(id);
+
+            if (stock is null)
+            {
+                return NotFound();
+            }
+
+            _context.Stocks.Remove(stock);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
     }
 }
